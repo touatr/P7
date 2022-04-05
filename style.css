@@ -1,0 +1,102 @@
+body {
+    font-family: 'DM Sans', sans-serif;
+    margin-left: 6rem;
+    margin-right: 6rem;
+    margin-top: 2.5rem;
+}
+
+main {
+    /*border: 1px solid black;*/
+}
+
+header #logo {
+   text-align: center;
+}
+
+#logo img {
+    width: 20rem;
+}
+
+#search-bar {
+    position: relative;
+    margin-top: 15px;
+}
+
+.search-bar-input {
+    border: none;
+    width: 100%;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 10px;
+    background: #E7E7E7;
+    border-radius: 3px;
+    font-size: larger;
+}
+
+input::placeholder {
+    opacity: 35%;
+}
+
+.fa-search {
+    position: absolute;
+    right: -1rem;
+    top: 1rem;
+    font-size: xx-large;
+}
+
+.info-bar {
+    position: absolute;
+    display: flex;
+    left: 4.5rem;
+    top: 15.5rem;
+    z-index: 1;
+}
+
+.info-bar ul {
+    list-style: none;
+    color: white;
+    border-radius: 5px;
+    margin-left: 1.5rem;
+    padding: 10px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.info-bar ul li {
+    font-size: 18px;
+    padding-left: 1rem;
+}
+
+.info-bar-ingredients {
+    background: #3282F7;
+}
+
+.info-bar-devices {
+    background: #68D9A4;
+}
+
+.info-bar-utensils {
+    background: #ED6454;
+}
+
+.angles {
+    display: flex;
+    align-items: baseline;
+}
+
+.angles .fa-angle-up {
+    display: none;
+}
+
+ nav em {
+    margin-left: 1.5rem;
+    margin-top: 3px;
+}
+
+.info-bar li, .angles em {
+    cursor: pointer;
+    padding-right: 1rem;
+    font-size: larger;
+}
+
