@@ -1,12 +1,8 @@
 body {
     font-family: 'DM Sans', sans-serif;
     margin-left: 6rem;
-    margin-right: 6rem;
+    margin-right: 8rem;
     margin-top: 2.5rem;
-}
-
-main {
-    /*border: 1px solid black;*/
 }
 
 header #logo {
@@ -80,23 +76,26 @@ input::placeholder {
     background: #ED6454;
 }
 
-.angles {
+.info-bar ul {
     display: flex;
     align-items: baseline;
 }
 
-.angles .fa-angle-up {
+.info-bar ul .fa-angle-up {
     display: none;
 }
 
- nav em {
+ .info-bar .fa-angle-up, .fa-chevron-down {
     margin-left: 1.5rem;
     margin-top: 3px;
 }
 
-.info-bar li, .angles em {
-    cursor: pointer;
-    padding-right: 1rem;
+.info-bar li, .fa-angle-up, .fa-chevron-down {
+    padding-right: 10px;
     font-size: larger;
+}
+
+.fa-angle-up, .fa-chevron-down {
+    cursor: pointer;
 }
 
