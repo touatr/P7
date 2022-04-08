@@ -99,3 +99,32 @@ input::placeholder {
     cursor: pointer;
 }
 
+.recipes-container {
+    display: flex;
+    margin-top: 11rem;
+    margin-left: -1.5rem;
+}
+
+.recipe-card {
+    background: #E7E7E7;
+    margin-left: 1.5rem;
+}
+
+.title-time {
+    display: flex;
+    align-items: baseline;
+}
+
+.time {
+    margin-left: 10rem;
+}
+
+.ingredients-description {
+    display: flex;
+}
+
+.description {
+    margin-left: 4.5rem;
+    width: 200px;
+    font-size: 12px;
+}
