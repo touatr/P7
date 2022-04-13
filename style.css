@@ -101,18 +101,41 @@ input::placeholder {
 
 .recipes-container {
     display: flex;
-    margin-top: 11rem;
-    margin-left: -1.5rem;
+    flex-wrap: wrap;
+    margin-top: 8rem;
+    margin-left: -3rem;
+    width: 110%;
 }
 
 .recipe-card {
+    width: 29%;
+    margin-left: 3rem;
+    margin-top: 3rem;
+    border-radius: 3px;
+}
+
+.recipe-header {
+    background: #C7BEBE;
+    height: 12rem;
+    border-radius: 5px 5px 0 0;
+}
+
+.recipe-text {
     background: #E7E7E7;
-    margin-left: 1.5rem;
+    height: 12rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem;
+    border-radius: 0 0 5px 5px;
 }
 
 .title-time {
     display: flex;
     align-items: baseline;
+}
+
+.title {
+    width: 200px;
 }
 
 .time {
