@@ -28,12 +28,13 @@ function getSearchResult() {
         timeRecipe.setAttribute('class', 'time-recipe');
         const timeIcon = document.createElement('i');
         timeIcon.setAttribute('class', 'time-icon');
+        timeIcon.setAttribute('class', 'fa-solid fa-clock');
         const time = document.createElement('p');
         time.setAttribute('class', 'time');
         const ingredientsDescription = document.createElement('div');
         ingredientsDescription.setAttribute('class', 'ingredients-description');
         const ingredients = document.createElement('div');
-        ingredients.setAttribute('class', 'ingredients');
+        ingredients.setAttribute('class', 'ingredients-bloc');
         const description = document.createElement('p');
         description.setAttribute('class', 'description');
         recipesContainer.appendChild(recipeCard);
@@ -50,20 +51,24 @@ function getSearchResult() {
         title.innerHTML = namesSuggestion[i].name;
         time.innerHTML = namesSuggestion[i].time + " " + "min";
         for(let j = 0; j < namesSuggestion[i].ingredients.length; j++) {
-            const ingredient = document.createElement('p');
+            let ingredient = document.createElement('p');
             ingredient.setAttribute('class', 'ingredient');
-            const quantity = document.createElement('p');
+            const quantityUnit = document.createElement('div');
+            quantityUnit.setAttribute('class', 'quantity-unit');
+            let quantity = document.createElement('p');
             quantity.setAttribute('class', 'quantity');
             let unit = document.createElement('p');
             unit.setAttribute('class', 'unit');
+            quantityUnit.appendChild(quantity)
+            quantityUnit.appendChild(unit);
             ingredients.appendChild(ingredient);
-            ingredients.appendChild(quantity);
-            ingredients.appendChild(unit);
+            ingredients.appendChild(quantityUnit);
             ingredient.innerHTML = namesSuggestion[i].ingredients[j].ingredient + ":";
             quantity.innerHTML = namesSuggestion[i].ingredients[j].quantity;
             unit.innerHTML = namesSuggestion[i].ingredients[j].unit;
             //Tester les cas ou il n'ya pas d'unité
-            if(unit.innerHTML === "undefined") {
+            unit.innerHTML = namesSuggestion[i].ingredients[j].unit;
+             if(unit.innerHTML === "undefined") {
                 unit.innerHTML = "";
             }
         }
@@ -100,5 +105,5 @@ function getSearchInIngredients() {
     return ingredient;
 }
 
-const test = getSearchInIngredients();
-console.log(test);
+/*const test = getSearchInIngredients();
+console.log(test);*/

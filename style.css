@@ -132,22 +132,47 @@ input::placeholder {
 .title-time {
     display: flex;
     align-items: baseline;
+    justify-content: space-between;
 }
 
 .title {
-    width: 200px;
+    font-weight: normal;
 }
 
 .time {
-    margin-left: 10rem;
+    margin-left: 6px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.time-recipe {
+    display: flex;
+    align-items: baseline;
+}
+
+.time-recipe i {
+    font-size: larger;
+    font-weight: normal;
 }
 
 .ingredients-description {
     display: flex;
 }
 
+.quantity-unit {
+    display: flex;
+}
+
+.ingredients-bloc {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .description {
-    margin-left: 4.5rem;
-    width: 200px;
+    margin-left: 1.5rem;
+}
+
+.description, .ingredients-bloc {
     font-size: 12px;
 }
