@@ -158,21 +158,41 @@ input::placeholder {
 
 .ingredients-description {
     display: flex;
+    align-items: baseline;
+    margin-top: -0.5rem;
 }
 
 .quantity-unit {
     display: flex;
+    margin-left: 2px;
+    white-space: nowrap;
 }
 
-.ingredients-bloc {
+.ingredients-ingredient-quantity-unit {
     display: flex;
-    flex-wrap: wrap;
+}
+
+.ingredient {
+    white-space: nowrap;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.quantity, .unit {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .description {
     margin-left: 1.5rem;
+    /*Couper le texte de plusieur lignes en verticale*/
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
 }
 
-.description, .ingredients-bloc {
+.description, .ingredients-ingredient-quantity-unit {
     font-size: 12px;
 }
