@@ -1,18 +1,34 @@
 //Récupérer toutes les entrèes de l'utilisateur depuis la barre de recherche
 const searchBar = document.querySelector('.search-bar-input');
-const recipesContainer = document.querySelector('.recipes-container');
+let recipesContainer = document.querySelector('.recipes-container');
 
-//Ecouter l'événement keyup de chaque entrée de caractère
-searchBar.addEventListener('keyup', getSearchResult);
+//Ecouter l'événement input de chaque entrée de caractère
+searchBar.addEventListener('input', getSearchResult);
+//Empêcher le comportement de la touche Entrée pour ne pas actualiser la page
+searchBar.addEventListener('keydown', function(event) {
+    if(event.key === "Enter") {
+        event.preventDefault();
+    }
+});
+/*Effacer le contenu des recettes si moins de 3 caractères
+searchBar.addEventListener('keydown', function(event) {
+    if(event.key === "Backspace") {
+        recipesContainer.innerHTML = "";
+    }
+});*/
 
-
-//Fonction de callback de l'événement keyup qui récupére toutes les recettes filtrèes
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes
 function getSearchResult() {
-    //Chercher dans les noms ou ingredients ou description d'une recette
-    //les mots entrès dans la barre de recherche
-    const inputSuggestion = getSearchInNamesDescriptionIngredients();
-    console.log(inputSuggestion);
-    getCardRecipe(inputSuggestion);
+    let inputSuggestion = getSearchInNamesDescriptionIngredients();
+    //Tester si la barre de recherche contient aux moins 3 caractères
+    if(searchBar.value.length > 2) {
+         //Chercher dans les noms ou ingredients ou description d'une recette
+        //les mots entrès dans la barre de recherche
+        getCardRecipe(inputSuggestion);
+    }
+    else {
+        recipesContainer.innerHTML = "";
+    }
 }
 
 //Création d'une carte de recette
@@ -102,22 +118,25 @@ function getSearchInNamesDescriptionIngredients() {
     //Includes() permet de comparer les données et les entrèes input
     const inputSuggestion = recipes.filter((item => item.name.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) || (item => item.description.toLocaleLowerCase()
-    .includes(searchBarInput.toLocaleLowerCase())) || (item => item.ingredients.toLocaleLowerCase()
-    .includes(searchBarInput.toLocaleLowerCase())));
-    return inputSuggestion;
+    .includes(searchBarInput.toLocaleLowerCase())) || hasIngredient(searchBarInput, item));
+    if(inputSuggestion) {
+        console.log(inputSuggestion);
+        return inputSuggestion;
+    }
+    else {
+        return false;
+    }
 }
 
-function getSearchInIngredients() {
-    const searchBarInput = searchBar.value;
-    let ingredient = recipes.filter(item => item.ingredients.filter(item => item.ingredient
-    .toLocaleLowerCase().includes(searchBarInput.toLocaleLowerCase()))
-    .toLocaleLowerCase().includes(searchBarInput.toLocaleLowerCase()));
-    return ingredient;
+//Chercher si un mot est contenu dans un ingrédient
+function hasIngredient(input, recipe) {
+    for(const ingredient of recipe.ingredients) {
+        if(ingredient.ingredient.toLocaleLowerCase().includes(input.toLocaleLowerCase()))
+        return true;
+    }
+    return false;
 }
 
 //Afficher les recettes par rapport aux mots entrés
-function displayRecipes(inputSuggestion) {
+function displayRecipes() {
 }
-
-/*const test = getSearchInIngredients();
-console.log(test);*/
