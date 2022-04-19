@@ -30,7 +30,7 @@ header #logo {
     font-size: larger;
 }
 
-input::placeholder {
+#search-bar input::placeholder {
     opacity: 35%;
 }
 
@@ -45,12 +45,13 @@ input::placeholder {
     position: absolute;
     display: flex;
     left: 4.5rem;
-    top: 15.5rem;
+    top: 16rem;
     z-index: 1;
 }
 
-.info-bar ul {
-    list-style: none;
+.info-bar form {
+    display: flex;
+    align-items: baseline;
     color: white;
     border-radius: 5px;
     margin-left: 1.5rem;
@@ -59,38 +60,58 @@ input::placeholder {
     padding-bottom: 25px;
 }
 
-.info-bar ul li {
+.info-bar input {
+    border: none;
+    font-size: 18px;
+}
+
+.info-bar input:focus {
+    outline: none;
+}
+
+.info-bar input {
+    display: none;
+}
+
+.info-bar input::placeholder {
+    opacity: 35%;
+}
+
+.info-bar form label {
     font-size: 18px;
     padding-left: 1rem;
 }
 
-.info-bar-ingredients {
+.info-bar-ingredients, .info-bar-ingredients input {
     background: #3282F7;
 }
 
-.info-bar-devices {
+.info-bar-devices, .info-bar-devices input {
     background: #68D9A4;
 }
 
-.info-bar-utensils {
+.info-bar-utensils, .info-bar-utensils input {
     background: #ED6454;
 }
 
-.info-bar ul {
+form .angles {
     display: flex;
-    align-items: baseline;
 }
 
-.info-bar ul .fa-angle-up {
+.angles .fa-angle-up {
     display: none;
 }
 
- .info-bar .fa-angle-up, .fa-chevron-down {
+.angles .fa-chevron-down {
+    font-size: medium;
+}
+
+ .angles .fa-angle-up, .fa-chevron-down {
     margin-left: 1.5rem;
     margin-top: 3px;
 }
 
-.info-bar li, .fa-angle-up, .fa-chevron-down {
+.info-bar label, .fa-angle-up, .fa-chevron-down {
     padding-right: 10px;
     font-size: larger;
 }
@@ -112,6 +133,7 @@ input::placeholder {
     margin-left: 3rem;
     margin-top: 3rem;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .recipe-header {
