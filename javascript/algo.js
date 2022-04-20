@@ -5,6 +5,7 @@ const tagIconDown = document.querySelectorAll('.fa-chevron-down');
 const tagIconUp = document.querySelectorAll('.fa-angle-up');
 const inputsTag = document.querySelectorAll('.input');
 const labelsTag = document.getElementsByTagName('label');
+let sections = document.getElementsByTagName('section');
 
 //Afficher les recettes selon le mot entré
 displayRecipes();
@@ -24,16 +25,20 @@ function getSearchResult() {
     //Chercher dans les noms ou les ingredients ou la description d'une recette
     //les mots entrès dans la barre de recherche
     let inputSuggestion = getSearchBar();
+    let inputIngredients = getSearchIngredients();
     //Tester si la barre de recherche contient aux moins 3 caractères
     if(searchBar.value.length > 2) {
         //Vider le contenu des recettes
         recipesContainer.innerHTML = "";
         //Afficher les nouvelles recettes
-        getCardRecipe(inputSuggestion);
-        //let inputIngredients = getSearchIngredient();
+        setCardRecipe(inputSuggestion);
+        //Afficher la liste des ingrédients
+        setContainTag(inputIngredients, 0);
     }
     else {
+        //Vider les contenu de la barre de recherche et le contenu des tags
         recipesContainer.innerHTML = "";
+        sections[0].innerHTML = "";
     }
      //Afficher un message quand aucune recette trouvé
      if(inputSuggestion.length === 0) {
@@ -44,7 +49,7 @@ function getSearchResult() {
 }
 
 //Création d'une carte de recette
-function getCardRecipe(inputSuggestion) {
+function setCardRecipe(inputSuggestion) {
     for( let i = 0; i < inputSuggestion.length; i++) {
         //Création de la carte recette
         const recipeCard = document.createElement('div');
@@ -121,6 +126,22 @@ function getCardRecipe(inputSuggestion) {
     }
 }
 
+//Création de la liste des ingrédients ou des appareils ou des ustensiles
+function setContainTag(inputTag, index) {
+    const blocText = document.createElement('div');
+    blocText.setAttribute('class', 'text');
+    sections[index].appendChild(blocText);
+    for(let i = 0; i < inputTag.length; i++) {
+        for(let j = 0; j < inputTag[i].ingredients.length; j++) {
+            for(let k = 0; k < 10; k++) {
+                const text = document.createElement('p');
+                text.innerHTML = inputTag[i].ingredients[j].ingredient;
+                blocText.appendChild(text);
+            }
+        }
+    }
+}
+
 /*Fonctions qui cherchent des mots dans les titres, les descriptions et les ingrédients
 d'une recette*/
 function getSearchBar() {
@@ -131,21 +152,48 @@ function getSearchBar() {
     const inputSuggestion = recipes.filter((item => item.name.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => item.description.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => hasIngredient(searchBarInput, item)));
+    //console.log(inputSuggestion);
+    return inputSuggestion;
+}
+
+//Chercher les mots dans les ingédients
+function getSearchIngredients() {
+    const searchBarInput = searchBar.value;
+    const inputSuggestion = recipes.filter(item => hasIngredient(searchBarInput, item));
     console.log(inputSuggestion);
     return inputSuggestion;
 }
 
-//Filtrer dans les ingédients
-function getSearchIngredient() {
+//Chercher les mots dans les appliances
+function getSearchAppliances() {
     const searchBarInput = searchBar.value;
-    const inputSuggestion = recipes.filter(item => hasIngredient(searchBarInput, item));
+    const inputSuggestion = recipes.filter(item => item.appliance.toLocaleLowerCase()
+    .includes(searchBarInput.toLocaleLowerCase()));
     console.log(inputSuggestion);
+    return inputSuggestion;
+}
+
+//Chercher les mots dans les ustensiles
+function getSearchUtensils() {
+    const searchBarInput = searchBar.value;
+    const inputSuggestion = recipes.filter(item => hasUtensil(searchBarInput, item));
+    console.log(inputSuggestion);
+    return inputSuggestion;
 }
 
 //Chercher si un mot est contenu dans un ingrédient
 function hasIngredient(input, recipe) {
     for(const ingredient of recipe.ingredients) {
         if(ingredient.ingredient.toLocaleLowerCase().includes(input.toLocaleLowerCase()))
+        return true;
+    }
+    return false;
+}
+
+//Chercher si un mot est contenu dans un ustensil
+function hasUtensil(input, recipe) {
+    for(let i = 0; i < recipe.ustensils.length; i++) {
+        if(recipe.ustensils[i].toLocaleLowerCase().includes(input.toLocaleLowerCase()))
         return true;
     }
     return false;
@@ -158,6 +206,7 @@ function displayTag(index) {
         tagIconUp[index].style.display = "block";
         inputsTag[index].style.display = "block";
         labelsTag[index].style.display = "none";
+        sections[index].style.display = "block";
     });
 }
 
@@ -168,11 +217,24 @@ function hiddenTag(index) {
         tagIconUp[index].style.display = "none";
         inputsTag[index].style.display = "none";
         labelsTag[index].style.display = "block";
+        sections[index].style.display = "none";
     });
 }
 
 //Afficher les recettes par rapport aux mots entrés
 function displayRecipes() {
+    //Ecouter l'événement input de chaque entrée de caractère
+    searchBar.addEventListener('input', getSearchResult);
+    //Empêcher le comportement de la touche Entrée pour ne pas actualiser la page
+    searchBar.addEventListener('keydown', function(event) {
+        if(event.key === "Enter") {
+            event.preventDefault();
+        }
+    });
+}
+
+//Afficher la liste des ingrédients par rapport aux mots entrés
+function displayIngredients() {
     //Ecouter l'événement input de chaque entrée de caractère
     searchBar.addEventListener('input', getSearchResult);
     //Empêcher le comportement de la touche Entrée pour ne pas actualiser la page

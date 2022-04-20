@@ -50,14 +50,23 @@ header #logo {
 }
 
 .info-bar form {
-    display: flex;
-    align-items: baseline;
+    height: 100%;
     color: white;
     border-radius: 5px;
     margin-left: 1.5rem;
     padding: 10px;
     padding-top: 25px;
     padding-bottom: 25px;
+}
+
+.ingredients-header, .devices-header, .utensils-header {
+    display: flex;
+}
+
+.info-bar form section {
+    display: flex;
+    justify-content: space-around;
+    display: none;
 }
 
 .info-bar input {
@@ -73,8 +82,14 @@ header #logo {
     display: none;
 }
 
-.info-bar input::placeholder {
+.info-bar .info-bar-ingredients input::placeholder, .info-bar .info-bar-devices
+input::placeholder, .info-bar .info-bar-utensils input::placeholder {
     opacity: 35%;
+    color: #FFFFFF;
+}
+
+.input {
+    color: #FFFFFF;
 }
 
 .info-bar form label {
