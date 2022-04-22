@@ -25,20 +25,34 @@ function getSearchResult() {
     //Chercher dans les noms ou les ingredients ou la description d'une recette
     //les mots entrès dans la barre de recherche
     let inputSuggestion = getSearchBar();
-    let inputIngredients = getSearchIngredients();
+    /*let inputIngredients = getSearchIngredients();
+    let inputAppliances = getSearchAppliances();
+    let inputUtensils = getSearchUtensils();*/
     //Tester si la barre de recherche contient aux moins 3 caractères
     if(searchBar.value.length > 2) {
+        console.log(inputSuggestion);
         //Vider le contenu des recettes
         recipesContainer.innerHTML = "";
-        //Afficher les nouvelles recettes
+        //Vider le contenu des tags
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+        //Afficher les nouvelles recettes en fontion de la recherche principale
         setCardRecipe(inputSuggestion);
         //Afficher la liste des ingrédients
-        setContainTag(inputIngredients, 0);
+        setIngredientsTag(inputSuggestion, 0);
+        //Afficher la liste des appareils
+        setAppliancesTag(inputSuggestion, 1);
+        //Afficher la liste des ustensiles
+        setUtensilsTag(inputSuggestion, 2);
     }
     else {
         //Vider les contenu de la barre de recherche et le contenu des tags
         recipesContainer.innerHTML = "";
+        //Vider le contenu des tags
         sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
     }
      //Afficher un message quand aucune recette trouvé
      if(inputSuggestion.length === 0) {
@@ -126,19 +140,59 @@ function setCardRecipe(inputSuggestion) {
     }
 }
 
-//Création de la liste des ingrédients ou des appareils ou des ustensiles
-function setContainTag(inputTag, index) {
+//Création de la liste des ingrédients
+function setIngredientsTag(inputTag, index) {
+    const blocText = document.createElement('div');
+    blocText.setAttribute('class', 'text');
+    sections[index].appendChild(blocText);
+    //Parcourir le tableau des inputTag contenant le résulat de recherche
+    for(let i = 0; i < inputTag.length; i++) {
+        //Parcourir le tableau des ingrédients
+        for(let j = 0; j < inputTag[i].ingredients.length; j++) {
+            //Ajouter chaque ingrédient dans la tag Ingrédients
+            const text = document.createElement('p');
+            text.setAttribute('class', 'value');
+            text.innerHTML = inputTag[i].ingredients[j].ingredient;
+            blocText.appendChild(text);
+        }  
+    }
+    //Effacer les données en double
+    const containTag = document.getElementsByClassName('value');
+    let compare = containTag[0].innerHTML;
+    for(let i = 1; i < containTag.length; i++) {
+        console.log(containTag[i].innerHTML);
+        if(containTag[i].innerHTML === compare) {
+            console.log(containTag[i].innerHTML);
+            containTag[i].innerHTML = "";
+            console.log(containTag[i].innerHTML);
+        }
+        compare = containTag[i].innerHTML;
+    }
+}
+
+//Création de la liste des appareils
+function setAppliancesTag(inputTag, index) {
     const blocText = document.createElement('div');
     blocText.setAttribute('class', 'text');
     sections[index].appendChild(blocText);
     for(let i = 0; i < inputTag.length; i++) {
-        for(let j = 0; j < inputTag[i].ingredients.length; j++) {
-            for(let k = 0; k < 10; k++) {
-                const text = document.createElement('p');
-                text.innerHTML = inputTag[i].ingredients[j].ingredient;
-                blocText.appendChild(text);
-            }
-        }
+        const text = document.createElement('p');
+        text.innerHTML = inputTag[i].appliance;
+        blocText.appendChild(text);
+    }
+}
+
+//Création de la liste des ustensiles
+function setUtensilsTag(inputTag, index) {
+    const blocText = document.createElement('div');
+    blocText.setAttribute('class', 'text');
+    sections[index].appendChild(blocText);
+    for(let i = 0; i < inputTag.length; i++) {
+        for(let j = 0; j < inputTag[i].ustensils.length; j++) {
+            const text = document.createElement('p');
+            text.innerHTML = inputTag[i].ustensils[j];
+            blocText.appendChild(text);
+        }  
     }
 }
 
@@ -152,7 +206,6 @@ function getSearchBar() {
     const inputSuggestion = recipes.filter((item => item.name.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => item.description.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => hasIngredient(searchBarInput, item)));
-    //console.log(inputSuggestion);
     return inputSuggestion;
 }
 
@@ -160,7 +213,6 @@ function getSearchBar() {
 function getSearchIngredients() {
     const searchBarInput = searchBar.value;
     const inputSuggestion = recipes.filter(item => hasIngredient(searchBarInput, item));
-    console.log(inputSuggestion);
     return inputSuggestion;
 }
 
@@ -169,7 +221,6 @@ function getSearchAppliances() {
     const searchBarInput = searchBar.value;
     const inputSuggestion = recipes.filter(item => item.appliance.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase()));
-    console.log(inputSuggestion);
     return inputSuggestion;
 }
 
@@ -177,7 +228,6 @@ function getSearchAppliances() {
 function getSearchUtensils() {
     const searchBarInput = searchBar.value;
     const inputSuggestion = recipes.filter(item => hasUtensil(searchBarInput, item));
-    console.log(inputSuggestion);
     return inputSuggestion;
 }
 
@@ -206,7 +256,7 @@ function displayTag(index) {
         tagIconUp[index].style.display = "block";
         inputsTag[index].style.display = "block";
         labelsTag[index].style.display = "none";
-        sections[index].style.display = "block";
+        sections[index].style.display = "flex";
     });
 }
 

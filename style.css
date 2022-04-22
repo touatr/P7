@@ -61,11 +61,12 @@ header #logo {
 
 .ingredients-header, .devices-header, .utensils-header {
     display: flex;
+    justify-content: space-between;
 }
 
 .info-bar form section {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     display: none;
 }
 
