@@ -62,12 +62,28 @@ header #logo {
 .ingredients-header, .devices-header, .utensils-header {
     display: flex;
     justify-content: space-between;
+    margin-left: 8px;
 }
 
 .info-bar form section {
-    display: flex;
-    justify-content: space-between;
     display: none;
+}
+
+.text {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: -25px;
+    margin-right: -4.5rem;
+    margin-left: 10px
+}
+
+.text .col {
+    margin-right: 6rem;
+}
+
+.text p {
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .info-bar input {
