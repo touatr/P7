@@ -16,6 +16,7 @@ header #logo {
 #search-bar {
     position: relative;
     margin-top: 15px;
+    margin-bottom: 2rem;
 }
 
 .search-bar-input {
@@ -45,7 +46,7 @@ header #logo {
     position: absolute;
     display: flex;
     left: 4.5rem;
-    top: 16rem;
+    top: 19.5rem;
     z-index: 1;
 }
 
@@ -114,8 +115,22 @@ input::placeholder, .info-bar .info-bar-utensils input::placeholder {
     padding-left: 1rem;
 }
 
-.info-bar-ingredients, .info-bar-ingredients input {
+.info-bar-ingredients, .info-bar-ingredients input, span {
     background: #3282F7;
+}
+
+span {
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.fa-circle-xmark {
+    position: absolute;
+    left: 12rem;
+    color: white;
+    font-weight: normal;
+    font-size: larger;
 }
 
 .info-bar-devices, .info-bar-devices input {

@@ -6,6 +6,8 @@ const tagIconUp = document.querySelectorAll('.fa-angle-up');
 const inputsTag = document.querySelectorAll('.input');
 const labelsTag = document.getElementsByTagName('label');
 let sections = document.getElementsByTagName('section');
+let currentRecipes = [];
+
 
 //Afficher les recettes selon le mot entré
 displayRecipes();
@@ -80,22 +82,30 @@ function getSearchIngredientsResult() {
         //Vider le contenu du tag
         sections[0].innerHTML = "";
     }
+    //Afficher un message quand aucun ingrédiant na été trouvé
+    if(inputIngredients.length === 0) {
+        sections[0].innerHTML = "Aucun ingrédient ne correspond à votre critère !";
+    }
 }
 
 //Fonction de callback de l'événement input qui récupére la liste des appareils
 function getSearchAppliancesResult() {
-    //Chercher dans les ingrédients 
+    //Chercher dans les appareils
     let inputAppliances = getSearchAppliances();
     //Tester si la barre des ingrédients contient aux moins 3 caractères
     if(inputsTag[1].value.length > 2) {
         //Vider le contenu du tag
         sections[1].innerHTML = "";
-        //Afficher la liste des ingrédients
+        //Afficher la liste des appareils
         setAppliancesTag(inputAppliances, 1);
     }
     else {
         //Vider le contenu du tag
         sections[1].innerHTML = "";
+    }
+    //Afficher un message quand aucun appareil na été trouvé
+    if(inputAppliances.length === 0) {
+        sections[1].innerHTML = "Aucun appareil ne correspond à votre critère !";
     }
 }
 
@@ -113,6 +123,10 @@ function getSearchUtensilsResult() {
     else {
         //Vider le contenu du tag
         sections[2].innerHTML = "";
+    }
+    //Afficher un message quand aucun ustensil na été trouvé
+    if(inputUtensils.length === 0) {
+        sections[2].innerHTML = "Aucun ustensil ne correspond à votre critère !";
     }
 }
 
@@ -194,6 +208,10 @@ function setCardRecipe(inputSuggestion) {
     }
 }
 
+function ingredientIsInCurrentRecipes(ingredient) {
+    //Vérifier si ingrédient est dans currentRecipes retourner true ou false en fonction
+
+}
 //Création de la liste des ingrédients
 function setIngredientsTag(inputTag, index) {
     //Tableau qui va contenir que les ingrédients trouvé
@@ -227,10 +245,19 @@ function setIngredientsTag(inputTag, index) {
     if(col.children.length > 0) {
         blocText.appendChild(col);
     }
-    /*Filtrer les résulats du tag en fonction du mot entré dans la champ
-    let test = containTag.filter(item => containTag[item].toLocaleLowerCase()
-    .includes(inputsTag[0].toLocaleLowerCase()));
-    console.log(test);*/
+    //Filtrer les résulats du tag en fonction du mot entré dans le champs ingrédients
+    const ingredientInput = inputsTag[index].value;
+    result = containTag.filter(word => word.toLocaleLowerCase().includes(ingredientInput));
+    //Afficher les ingrédients s'ils contiennent le mot entré
+    blocText.innerHTML = "";
+    const blocTextBis = document.createElement('div');
+    for(let i = 0 ; i < result.length; i++) {
+        const text = document.createElement('p');
+        text.innerHTML = result[i];
+        blocTextBis.appendChild(text);
+        blocTextBis.style.flexDirection = 'column';
+        sections[index].appendChild(blocTextBis);
+    }
 }
 
 //Création de la liste des appareils
@@ -255,7 +282,7 @@ function setAppliancesTag(inputTag, index) {
             }
         }
     }
-    if(col.children > 0) {
+    if(col.children.length > 0) {
         blocText.appendChild(col);
     }
 }
@@ -270,13 +297,12 @@ function setUtensilsTag(inputTag, index) {
     col.setAttribute('class', 'col');
     for(let i = 0; i < inputTag.length; i++) {
         for(let j = 0; j < inputTag[i].ustensils.length; j++) {
-            const utensil = inputTag[i].ustensils[j].utensil;
-            if(!containTag.includes(utensil)) {
+            const ustensil = inputTag[i].ustensils[j];
+            if(!containTag.includes(ustensil)) {
                 const text = document.createElement('p');
-                text.innerHTML = inputTag[i].ustensils[j];
-                blocText.appendChild(text);
-                let col = document.createElement('div');
-                col.setAttribute('class', 'col');
+                text.innerHTML = ustensil;
+                containTag.push(ustensil);
+                col.appendChild(text);
                 if(col.children.length > 9) {
                     blocText.appendChild(col);
                     col = document.createElement('div');
@@ -285,9 +311,12 @@ function setUtensilsTag(inputTag, index) {
             }
         }  
     }
-     if(col.children > 0) {
+     if(col.children.length > 0) {
         blocText.appendChild(col);
     }
+    //Filtrer les résulats du tag en fonction du mot entré dans le champs ustensils
+    const ustensilInput = inputsTag[2].value;
+    result = containTag.filter(word => word.toLocaleLowerCase().includes(ustensilInput));
 }
 
 /*Fonctions qui cherchent des mots dans les titres, les descriptions et les ingrédients
@@ -300,6 +329,7 @@ function getSearchBar() {
     const inputSuggestion = recipes.filter((item => item.name.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => item.description.toLocaleLowerCase()
     .includes(searchBarInput.toLocaleLowerCase())) && (item => hasIngredient(searchBarInput, item)));
+    currentRecipes = inputSuggestion;
     return inputSuggestion;
 }
 
@@ -329,6 +359,14 @@ function getSearchUtensils() {
 function hasIngredient(input, recipe) {
     for(const ingredient of recipe.ingredients) {
         if(ingredient.ingredient.toLocaleLowerCase().includes(input.toLocaleLowerCase()))
+        return true;
+    }
+    return false;
+}
+
+function hasIngredientBis(input, recipe) {
+    for(const ingredient of recipe.ingredients) {
+        if(ingredient.ingredient.toLocaleLowerCase() === input)
         return true;
     }
     return false;
