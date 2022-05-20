@@ -6,6 +6,9 @@ const tagIconUp = document.querySelectorAll('.fa-angle-up');
 const inputsTag = document.querySelectorAll('.input');
 const labelsTag = document.getElementsByTagName('label');
 let sections = document.getElementsByTagName('section');
+const keyWords = document.querySelectorAll('.key-word');
+const keyWordIcons = document.querySelectorAll('.fa-circle-xmark');
+const infoBar = document.querySelector('.info-bar');
 
 
 //Afficher les recettes selon le mot entré
@@ -66,7 +69,7 @@ function getSearchResult() {
     }
 }
 
-//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes pr tag
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par ingrédient
 function getSearchResultByIngredient() {
     recipesContainer.style.marginLeft = "-3rem";
     //Chercher dans les ingredients
@@ -91,7 +94,6 @@ function getSearchResultByIngredient() {
     else {
         //Vider les contenu de la barre de recherche et le contenu des tags
         recipesContainer.innerHTML = "";
-        //Vider le contenu des tags
         sections[0].innerHTML = "";
         sections[1].innerHTML = "";
         sections[2].innerHTML = "";
@@ -101,6 +103,83 @@ function getSearchResultByIngredient() {
         recipesContainer.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez" +
         " chercher «tartes au pommes», «poisson», ect...";
         recipesContainer.style.marginLeft = "-1rem";
+        recipesContainer.style.marginTop = "12rem";
+    }
+}
+
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par appareil
+function getSearchResultByAppliance() {
+    recipesContainer.style.marginLeft = "-3rem";
+    //Chercher dans les appareils
+    let inputSuggestion = getSearchAppliances();
+    //Tester si la tag ingrédients contient aux moins 3 caractères
+    if(inputsTag[1].value.length > 2) {
+        //Vider le contenu des recettes
+        recipesContainer.innerHTML = "";
+        //Vider le contenu des tags
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+        //Afficher les nouvelles recettes en fontion de la recherche du tag
+        setCardRecipe(inputSuggestion);
+        //Afficher la liste des ingrédients
+        setIngredientsTag(inputSuggestion, 0);
+        //Afficher la liste des appareils
+        setAppliancesTag(inputSuggestion, 1);
+        //Afficher la liste des ustensiles
+        setUtensilsTag(inputSuggestion, 2);
+    }
+    else {
+        //Vider les contenu de la barre de recherche et le contenu des tags
+        recipesContainer.innerHTML = "";
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+    }
+     //Afficher un message quand aucune recette trouvé
+     if(inputSuggestion.length === 0) {
+        recipesContainer.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez" +
+        " chercher «tartes au pommes», «poisson», ect...";
+        recipesContainer.style.marginLeft = "-1rem";
+        recipesContainer.style.marginTop = "12rem";
+    }
+}
+
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par appareil
+function getSearchResultByUtensil() {
+    recipesContainer.style.marginLeft = "-3rem";
+    //Chercher dans les appareils
+    let inputSuggestion = getSearchUtensils();
+    //Tester si la tag ingrédients contient aux moins 3 caractères
+    if(inputsTag[2].value.length > 2) {
+        //Vider le contenu des recettes
+        recipesContainer.innerHTML = "";
+        //Vider le contenu des tags
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+        //Afficher les nouvelles recettes en fontion de la recherche du tag
+        setCardRecipe(inputSuggestion);
+        //Afficher la liste des ingrédients
+        setIngredientsTag(inputSuggestion, 0);
+        //Afficher la liste des appareils
+        setAppliancesTag(inputSuggestion, 1);
+        //Afficher la liste des ustensiles
+        setUtensilsTag(inputSuggestion, 2);
+    }
+    else {
+        //Vider les contenu de la barre de recherche et le contenu des tags
+        recipesContainer.innerHTML = "";
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+    }
+     //Afficher un message quand aucune recette trouvé
+     if(inputSuggestion.length === 0) {
+        recipesContainer.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez" +
+        " chercher «tartes au pommes», «poisson», ect...";
+        recipesContainer.style.marginLeft = "-1rem";
+        recipesContainer.style.marginTop = "12rem";
     }
 }
 
@@ -110,16 +189,12 @@ function getSearchIngredientsResult() {
     let inputIngredients = getSearchIngredients();
     //Tester si la barre des ingrédients contient aux moins 3 caractères
     if(inputsTag[0].value.length > 2) {
-        //Vider le contenu des recettes
-        recipesContainer.innerHTML = "";
         //Vider le contenu du tag
         sections[0].innerHTML = "";
         //Afficher la liste des ingrédients
         setIngredientsTagBis(inputIngredients, 0);
     }
     else {
-        //Vider le contenu des recettes
-        recipesContainer.innerHTML = "";
         //Vider le contenu du tag
         sections[0].innerHTML = "";
     }
@@ -523,7 +598,7 @@ function displayRecipes() {
     });
 }
 
-//Afficher la liste des ingrédients par rapport aux mots entrés
+//Afficher la liste des ingrédients par rapport au mot entré
 function displayIngredients() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[0].addEventListener('input', getSearchIngredientsResult);
@@ -531,12 +606,22 @@ function displayIngredients() {
     inputsTag[0].addEventListener('keydown', function(event)  {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag ingrédient
             getSearchResultByIngredient();
+            //Afficher le mot clé dans un tag
+            keyWords[0].style.display = "block";
+            keyWords[1].style.display = "none";
+            keyWords[2].style.display = "none";
+            keyWords[0].innerHTML = inputsTag[0].value;
+            keyWordIcons[0].style.display = "block";
+            keyWordIcons[1].style.display = "none";
+            keyWordIcons[2].style.display = "none";
+            infoBar.style.top = "20.2rem";
         }
     });
 }
 
-//Afficher la liste des appareils par rapport aux mots entrés
+//Afficher la liste des appareils par rapport au mot entré
 function displayAppliances() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[1].addEventListener('input', getSearchAppliancesResult);
@@ -544,11 +629,22 @@ function displayAppliances() {
     inputsTag[1].addEventListener('keydown', function(event) {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag appareils
+            getSearchResultByAppliance();
+           //Afficher le mot clé dans un tag
+           keyWords[1].style.display = "block";
+           keyWords[0].style.display = "none";
+           keyWords[2].style.display = "none";
+           keyWords[1].innerHTML = inputsTag[1].value;
+           keyWordIcons[1].style.display = "block";
+           keyWordIcons[0].style.display = "none";
+           keyWordIcons[2].style.display = "none";
+           infoBar.style.top = "20.2rem";
         }
     });
 }
 
-//Afficher la liste des ustensils par rapport aux mots entrés
+//Afficher la liste des ustensils par rapport au mot entré
 function displayUtensils() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[2].addEventListener('input', getSearchUtensilsResult);
@@ -556,6 +652,62 @@ function displayUtensils() {
     inputsTag[2].addEventListener('keydown', function(event) {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag ustensils
+            getSearchResultByUtensil();
+            //Afficher le mot clé dans un tag
+            keyWords[2].style.display = "block";
+            keyWords[0].style.display = "none";
+            keyWords[1].style.display = "none";
+            keyWords[2].innerHTML = inputsTag[2].value;
+            keyWordIcons[2].style.display = "block";
+            keyWordIcons[0].style.display = "none";
+            keyWordIcons[1].style.display = "none";
+            infoBar.style.top = "20.2rem";
         }
     });
 }
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[0].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[1].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[2].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});

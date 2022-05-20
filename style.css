@@ -16,7 +16,6 @@ header #logo {
 #search-bar {
     position: relative;
     margin-top: 15px;
-    margin-bottom: 2rem;
 }
 
 .search-bar-input {
@@ -46,7 +45,7 @@ header #logo {
     position: absolute;
     display: flex;
     left: 4.5rem;
-    top: 19.5rem;
+    top: 16rem;
     z-index: 1;
 }
 
@@ -61,6 +60,7 @@ header #logo {
 }
 
 .ingredients-header, .devices-header, .utensils-header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     margin-left: 8px;
@@ -115,29 +115,39 @@ input::placeholder, .info-bar .info-bar-utensils input::placeholder {
     padding-left: 1rem;
 }
 
-.info-bar-ingredients, .info-bar-ingredients input, span {
+.info-bar-ingredients, .info-bar-ingredients input, .key-word-ingredient {
     background: #3282F7;
 }
 
-span {
+.key-word {
+    display: none;
+    position: absolute;
+    top: -5rem;
+    left: -18px;
     color: white;
     border-radius: 5px;
     padding: 10px;
+    padding-left: 20px;
+    padding-right: 60px;
 }
 
 .fa-circle-xmark {
+    display: none;
+    cursor: pointer;
     position: absolute;
-    left: 12rem;
+    z-index: 1;
+    top: -4.4rem;
+    left: 3.3rem;
     color: white;
     font-weight: normal;
     font-size: larger;
 }
 
-.info-bar-devices, .info-bar-devices input {
+.info-bar-devices, .info-bar-devices input, .key-word-appliance {
     background: #68D9A4;
 }
 
-.info-bar-utensils, .info-bar-utensils input {
+.info-bar-utensils, .info-bar-utensils input, .key-word-utensil {
     background: #ED6454;
 }
 
