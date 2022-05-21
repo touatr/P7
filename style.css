@@ -13,6 +13,12 @@ header #logo {
     width: 20rem;
 }
 
+@media(max-width:800px) {
+    #search-bar {
+    width: 96%;
+    }
+}
+
 #search-bar {
     position: relative;
     margin-top: 15px;
@@ -41,12 +47,30 @@ header #logo {
     font-size: xx-large;
 }
 
+@media(max-width:2500px){
+    .info-bar {
+        left: 4.5rem;
+    }
+}
+
+@media(max-width:800px){
+    .info-bar {
+        width: 68%;
+        flex-wrap: wrap;
+    }
+}
+
 .info-bar {
     position: absolute;
     display: flex;
-    left: 4.5rem;
     top: 16rem;
     z-index: 1;
+}
+
+@media(max-width:800px) {
+    .info-bar form {
+        margin-top: 1rem;
+    }
 }
 
 .info-bar form {
@@ -177,16 +201,93 @@ form .angles {
     cursor: pointer;
 }
 
+@media(max-width:2500px) {
+    .recipes-container {
+        width: 110%;
+        margin-top: 8rem;
+    }
+}
+
+@media(max-width:1286px) {
+    .recipes-container {
+        width: 109%;
+    }
+}
+
+@media(max-width:1120px) {
+    .recipes-container {
+        width: 112%;
+    }
+}
+
+@media(max-width:968px) {
+    .recipes-container {
+        width: 112%;
+    }
+}
+
+@media(max-width:954px) {
+    .recipes-container {
+        width: 114%;
+    }
+}
+
+@media(max-width:800px) {
+    .recipes-container {
+        width: 114%;
+        margin-top: 10rem;
+    }
+}
+
+@media(max-width:604px) {
+    .recipes-container {
+        width: 114%;
+        margin-top: 16rem;
+    }
+}
+
 .recipes-container {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 8rem;
-    margin-left: -3rem;
-    width: 110%;
+}
+
+@media(max-width:2500px) {
+    .recipe-card {
+        width: 29%;
+    }
+}
+
+@media(max-width:1256px) {
+    .recipe-card {
+        width: 45%;
+    }
+}
+
+@media(max-width:1120px) {
+    .recipe-card {
+        width: 44%;
+    }
+}
+
+@media(max-width:954px) {
+    .recipe-card {
+        width: 43%;
+    }
+}
+
+@media(max-width:960px) {
+    .recipe-card {
+        width: 100%;
+    }
+}
+
+@media(max-width:533px) {
+    .recipe-card {
+        
+    }
 }
 
 .recipe-card {
-    width: 29%;
     margin-left: 3rem;
     margin-top: 3rem;
     border-radius: 3px;
@@ -261,6 +362,12 @@ form .angles {
 .quantity, .unit {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+@media(max-width:570px) {
+    .description {
+        width: 0;
+    }
 }
 
 .description {

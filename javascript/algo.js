@@ -92,7 +92,7 @@ function getSearchResultByIngredient() {
         setUtensilsTag(inputSuggestion, 2);
     }
     else {
-        //Vider les contenu de la barre de recherche et le contenu des tags
+        //Vider les contenus de la barre de recherche et le contenu des tags
         recipesContainer.innerHTML = "";
         sections[0].innerHTML = "";
         sections[1].innerHTML = "";
@@ -105,6 +105,7 @@ function getSearchResultByIngredient() {
         recipesContainer.style.marginLeft = "-1rem";
         recipesContainer.style.marginTop = "12rem";
     }
+    return inputSuggestion;
 }
 
 //Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par appareil
@@ -617,6 +618,7 @@ function displayIngredients() {
             keyWordIcons[1].style.display = "none";
             keyWordIcons[2].style.display = "none";
             infoBar.style.top = "20.2rem";
+            recipesContainer.style.marginTop = "8rem";
         }
     });
 }
@@ -640,6 +642,7 @@ function displayAppliances() {
            keyWordIcons[0].style.display = "none";
            keyWordIcons[2].style.display = "none";
            infoBar.style.top = "20.2rem";
+           recipesContainer.style.marginTop = "8rem";
         }
     });
 }
@@ -663,6 +666,7 @@ function displayUtensils() {
             keyWordIcons[0].style.display = "none";
             keyWordIcons[1].style.display = "none";
             infoBar.style.top = "20.2rem";
+            recipesContainer.style.marginTop = "8rem";
         }
     });
 }
