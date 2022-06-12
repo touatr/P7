@@ -1,4 +1,4 @@
-/* Version avec des boucles natives for
+/* Version en programmation foctionnelle avec foreach
 Récupérer toutes les entrèes de l'utilisateur depuis la barre de recherche*/
 const searchBar = document.querySelector('.search-bar-input');
 let recipesContainer = document.querySelector('.recipes-container');
@@ -10,9 +10,6 @@ let sections = document.getElementsByTagName('section');
 const keyWords = document.querySelectorAll('.key-word');
 const keyWordIcons = document.querySelectorAll('.fa-circle-xmark');
 const infoBar = document.querySelector('.info-bar');
-let ingredientsTag = [];
-const appliancesTag = [];
-const utensilsTag = [];
 
 
 //Afficher les recettes selon le mot entré
@@ -74,8 +71,10 @@ function getSearchResult() {
 }
 
 //Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par ingrédient
-function displayrecipesByTag() {
+function getSearchResultByIngredient() {
     recipesContainer.style.marginLeft = "-3rem";
+    //Chercher dans les ingredients
+    let inputSuggestion = getSearchIngredients();
     //Tester si la tag ingrédients contient aux moins 3 caractères
     if(inputsTag[0].value.length > 2) {
         //Vider le contenu des recettes
@@ -89,9 +88,9 @@ function displayrecipesByTag() {
         //Afficher la liste des ingrédients
         setIngredientsTag(inputSuggestion, 0);
         //Afficher la liste des appareils
-        setAppliances(inputSuggestion, 1);
+        setAppliancesTag(inputSuggestion, 1);
         //Afficher la liste des ustensiles
-        setUtensils(inputSuggestion, 2);
+        setUtensilsTag(inputSuggestion, 2);
     }
     else {
         //Vider les contenus de la barre de recherche et le contenu des tags
@@ -108,6 +107,82 @@ function displayrecipesByTag() {
         recipesContainer.style.marginTop = "12rem";
     }
     return inputSuggestion;
+}
+
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par appareil
+function getSearchResultByAppliance() {
+    recipesContainer.style.marginLeft = "-3rem";
+    //Chercher dans les appareils
+    let inputSuggestion = getSearchAppliances();
+    //Tester si la tag ingrédients contient aux moins 3 caractères
+    if(inputsTag[1].value.length > 2) {
+        //Vider le contenu des recettes
+        recipesContainer.innerHTML = "";
+        //Vider le contenu des tags
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+        //Afficher les nouvelles recettes en fontion de la recherche du tag
+        setCardRecipe(inputSuggestion);
+        //Afficher la liste des ingrédients
+        setIngredientsTag(inputSuggestion, 0);
+        //Afficher la liste des appareils
+        setAppliancesTag(inputSuggestion, 1);
+        //Afficher la liste des ustensiles
+        setUtensilsTag(inputSuggestion, 2);
+    }
+    else {
+        //Vider les contenu de la barre de recherche et le contenu des tags
+        recipesContainer.innerHTML = "";
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+    }
+     //Afficher un message quand aucune recette trouvé
+     if(inputSuggestion.length === 0) {
+        recipesContainer.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez" +
+        " chercher «tartes au pommes», «poisson», ect...";
+        recipesContainer.style.marginLeft = "-1rem";
+        recipesContainer.style.marginTop = "12rem";
+    }
+}
+
+//Fonction de callback de l'événement input qui récupére toutes les recettes filtrèes par appareil
+function getSearchResultByUtensil() {
+    recipesContainer.style.marginLeft = "-3rem";
+    //Chercher dans les appareils
+    let inputSuggestion = getSearchUtensils();
+    //Tester si la tag ingrédients contient aux moins 3 caractères
+    if(inputsTag[2].value.length > 2) {
+        //Vider le contenu des recettes
+        recipesContainer.innerHTML = "";
+        //Vider le contenu des tags
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+        //Afficher les nouvelles recettes en fontion de la recherche du tag
+        setCardRecipe(inputSuggestion);
+        //Afficher la liste des ingrédients
+        setIngredientsTag(inputSuggestion, 0);
+        //Afficher la liste des appareils
+        setAppliancesTag(inputSuggestion, 1);
+        //Afficher la liste des ustensiles
+        setUtensilsTag(inputSuggestion, 2);
+    }
+    else {
+        //Vider les contenu de la barre de recherche et le contenu des tags
+        recipesContainer.innerHTML = "";
+        sections[0].innerHTML = "";
+        sections[1].innerHTML = "";
+        sections[2].innerHTML = "";
+    }
+     //Afficher un message quand aucune recette trouvé
+     if(inputSuggestion.length === 0) {
+        recipesContainer.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez" +
+        " chercher «tartes au pommes», «poisson», ect...";
+        recipesContainer.style.marginLeft = "-1rem";
+        recipesContainer.style.marginTop = "12rem";
+    }
 }
 
 //Fonction de callback de l'événement input qui récupére la liste des ingrédients
@@ -175,8 +250,8 @@ function getSearchUtensilsResult() {
 
 //Création d'une carte de recette
 function setCardRecipe(inputSuggestion) {
-    for( let i = 0; i < inputSuggestion.length; i++) {
-        //Création de la carte recette
+    //Création de la carte recette
+    inputSuggestion.forEach(element => {
         const recipeCard = document.createElement('div');
         recipeCard.setAttribute('class', 'recipe-card');
         recipesContainer.appendChild(recipeCard);
@@ -210,10 +285,10 @@ function setCardRecipe(inputSuggestion) {
         titleTime.appendChild(timeRecipe);
         timeRecipe.appendChild(timeIcon);
         timeRecipe.appendChild(time);
-        title.innerHTML = inputSuggestion[i].name;
-        time.innerHTML = inputSuggestion[i].time + " " + "min";
+        title.innerHTML = element.name;
+        time.innerHTML = element.time + " " + "min";
         //Création de l'élément ingrédients
-        for(let j = 0; j < inputSuggestion[i].ingredients.length; j++) {
+        element.ingredients.forEach(index => {
             const ingredients = document.createElement('div');
             ingredients.setAttribute('class', 'ingredients-ingredient-quantity-unit');
             let ingredient = document.createElement('p');
@@ -230,27 +305,26 @@ function setCardRecipe(inputSuggestion) {
             quantityUnit.appendChild(unit);
             ingredients.appendChild(quantityUnit);
             ingredientsBloc.appendChild(ingredients);
-            ingredient.innerHTML = inputSuggestion[i].ingredients[j].ingredient + ":";
-            quantity.innerHTML = inputSuggestion[i].ingredients[j].quantity;
-            unit.innerHTML = inputSuggestion[i].ingredients[j].unit;
+            ingredient.innerHTML = element.ingredients[index].ingredient + ":";
+            quantity.innerHTML = element.ingredients.quantity;
+            unit.innerHTML = element.ingredients.unit;
             //Tester le cas ou il n'ya pas d'unité
-             if(unit.innerHTML === "undefined") {
+                if(unit.innerHTML === "undefined") {
                 unit.innerHTML = "";
             }
             //Tester le cas ou il n'ya pas de quantité
             if(quantity.innerHTML === "undefined") {
                 quantity.innerHTML = "";
-                ingredient.innerHTML = inputSuggestion[i].ingredients[j].ingredient;
+                ingredient.innerHTML = element.ingredients.ingredient;
             }
-        }
-        description.innerHTML = inputSuggestion[i].description;
+        });
+        description.innerHTML = element.description;
         ingredientsDescription.appendChild(ingredientsBloc);
         ingredientsDescription.appendChild(description);
         recipeCard.appendChild(recipeHeader);
         recipeCard.appendChild(recipeText);
-    }
+    });
 }
-
 //Création de la liste des ingrédients à partir de la barre de recherche principale
 function setIngredientsTag(inputTag, index) {
     //Tableau qui va contenir que les ingrédients trouvé
@@ -269,11 +343,6 @@ function setIngredientsTag(inputTag, index) {
             //Vérifier si l'ingrédient est dans le bloc text
             if(!containTag.includes(ingredient)) {
                 const text = document.createElement('p');
-                text.className = "pIngredient";
-                text.addEventListener('click', function(e) {
-                    const ingredient = e.target.innerHTML;
-                    updateIngredients(ingredient);
-                });
                 text.innerHTML = ingredient;
                 containTag.push(ingredient);
                 col.appendChild(text);
@@ -309,7 +378,6 @@ function setIngredientsTagBis(inputTag, index) {
             //Vérifier si l'ingrédient est dans le bloc text
             if(!containTag.includes(ingredient)) {
                 const text = document.createElement('p');
-                text.className = "pIngredient";
                 text.innerHTML = ingredient;
                 containTag.push(ingredient);
                 col.appendChild(text);
@@ -332,13 +400,9 @@ function setIngredientsTagBis(inputTag, index) {
     blocText.innerHTML = "";
     for(let i = 0 ; i < result.length; i++) {
         const text = document.createElement('p');
-        text.className = "pIngredient";
         text.innerHTML = result[i];
         blocText.appendChild(text);
         blocText.style.flexDirection = 'column';
-        const ingredients = document.querySelectorAll('.pIngredient');
-        //Ecouter l'évenement click de chaque ingédient et afficher le résultat
-        ingredients[i].addEventListener('click', ()=> {updateIngredients(ingredients[i].innerHTML)});
     }
 }
 
@@ -354,7 +418,6 @@ function setAppliancesTag(inputTag, index) {
         const appliance = inputTag[i].appliance;
         if(!containTag.includes(appliance)) {
             const text = document.createElement('p');
-            text.className = "pAppliance";
             text.innerHTML = appliance;
             containTag.push(appliance);
             col.appendChild(text);
@@ -367,62 +430,6 @@ function setAppliancesTag(inputTag, index) {
     }
     if(col.children.length > 0) {
         blocText.appendChild(col);
-    }
-    const appliances = document.querySelectorAll('.pAppliance');
-    for(let i = 0; i < appliances.length; i++) {
-        appliances[i].addEventListener('click', function() {
-             //Affficher les recettes et les contenus des tags et fermer tous les tags des mots clé
-            const keyWordsTags = document.querySelectorAll('.key-word');
-            const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-            for(let i = 0; i < keyWordsTags.length; i++) {
-                keyWordsTags[i].style.display = "none";
-                keyWordsIcons[i].style.display = "none";
-            }
-            const appliance = appliances[i].innerHTML;
-            const applianceClick = recipes.filter(item => hasIngredient(appliance, item) 
-            || item.appliance.toLocaleLowerCase().includes(appliance.toLocaleLowerCase())
-            || hasUtensil(appliance, item));
-            //Affficher les recettes et les contenus des tags
-            recipesContainer.style.marginLeft = "-3rem";
-            //Vider le contenu des recettes
-            recipesContainer.innerHTML = "";
-            //Vider le contenu des tags
-            sections[0].innerHTML = "";
-            sections[1].innerHTML = "";
-            sections[2].innerHTML = "";
-            setCardRecipe(applianceClick);
-            setIngredientsTag(applianceClick, 0);
-            setAppliancesTag(applianceClick, 1);
-            setUtensilsTag(applianceClick, 2);
-            //Afficher le mot clé dans un tag
-            const container = document.querySelector('.key-words-appliances-bloc');
-            const keyWordTag = document.createElement('span');
-            const keyWordIcon = document.createElement('i');
-            keyWordTag.className = "key-word key-word-appliance";
-            keyWordTag.innerHTML = appliances[i].innerHTML;
-            keyWordTag.style.display = "block";
-            keyWordIcon.className = "fa-solid fa-circle-xmark";
-            keyWordIcon.style.display = "block";
-            container.append(keyWordTag);
-            container.append(keyWordIcon);
-            appliancesTag.push(keyWordTag.innerHTML);
-            infoBar.style.top = "20.2rem";
-            recipesContainer.style.marginTop = "8rem";
-             //Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
-             keyWordIcon.addEventListener('click', function() {
-            const keyWordsTags = document.querySelectorAll('.key-word');
-            const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-            for(let i = 0; i < keyWordsTags.length; i++) {
-                keyWordsTags[i].style.display = "none";
-                keyWordsIcons[i].style.display = "none";
-            }
-                recipesContainer.innerHTML = "";
-                sections[0].innerHTML = "";
-                sections[1].innerHTML = "";
-                sections[2].innerHTML = "";
-                infoBar.style.top = "16rem";
-            });
-        });
     }
 }
 
@@ -439,11 +446,6 @@ function setUtensilsTag(inputTag, index) {
             const ustensil = inputTag[i].ustensils[j];
             if(!containTag.includes(ustensil)) {
                 const text = document.createElement('p');
-                text.className = "pUtensil";
-                text.addEventListener('click', function(e) {
-                    const utensil = e.target.innerHTML;
-                    updateUtensils(utensil);
-                });
                 text.innerHTML = ustensil;
                 containTag.push(ustensil);
                 col.appendChild(text);
@@ -473,7 +475,6 @@ function setUtensilsTagBis(inputTag, index) {
             const ustensil = inputTag[i].ustensils[j];
             if(!containTag.includes(ustensil)) {
                 const text = document.createElement('p');
-                text.className = "pUtensil";
                 text.innerHTML = ustensil;
                 containTag.push(ustensil);
                 col.appendChild(text);
@@ -496,171 +497,45 @@ function setUtensilsTagBis(inputTag, index) {
     blocText.innerHTML = "";
     for(let i = 0 ; i < result.length; i++) {
         const text = document.createElement('p');
-        text.className = "pUtensil";
         text.innerHTML = result[i];
         blocText.appendChild(text);
         blocText.style.flexDirection = 'column';
-        const utensils = document.querySelectorAll('.pUtensil');
-        utensils[i].addEventListener('click', ()=> {updateUtensils(utensils[i].innerHTML)});
     }
 }
 
-function updateUtensils(utensil) {
-   //Affficher les recettes et les contenus des tags
-   //const utensil = utensils[i].innerHTML;
-   const utensilClick = recipes.filter(item => hasIngredient(utensil, item) 
-   || item.appliance.toLocaleLowerCase().includes(utensil.toLocaleLowerCase())
-   || hasUtensil(utensil, item));
-    //Affficher les recettes et les contenus des tags et fermer tous les tags des mots clé
-    const keyWordsTags = document.querySelectorAll('.key-word');
-    const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-    for(let i = 0; i < keyWordsTags.length; i++) {
-        keyWordsTags[i].style.display = "none";
-        keyWordsIcons[i].style.display = "none";
-    }
-   recipesContainer.style.marginLeft = "-3rem";
-   //Vider le contenu des recettes
-   recipesContainer.innerHTML = "";
-   //Vider le contenu des tags
-   sections[0].innerHTML = "";
-   sections[1].innerHTML = "";
-   sections[2].innerHTML = "";
-   setCardRecipe(utensilClick);
-   setIngredientsTag(utensilClick, 0);
-   setAppliancesTag(utensilClick, 1);
-   setUtensilsTag(utensilClick, 2);
-    //Afficher le mot clé dans un tag
-    const container = document.querySelector('.key-words-utensils-bloc');
-    const keyWordTag = document.createElement('span');
-    const keyWordIcon = document.createElement('i');
-    keyWordTag.className = "key-word key-word-utensil";
-    keyWordTag.innerHTML = utensil;
-    keyWordTag.style.display = "block";
-    keyWordIcon.className = "fa-solid fa-circle-xmark";
-    keyWordIcon.style.display = "block";
-    container.append(keyWordTag);
-    container.append(keyWordIcon);
-    utensilsTag.push(keyWordTag.innerHTML);
-    infoBar.style.top = "20.2rem";
-    recipesContainer.style.marginTop = "8rem";
-     //Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
-     keyWordIcon.addEventListener('click', function() {
-        const keyWordsTags = document.querySelectorAll('.key-word');
-        const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-        for(let i = 0; i < keyWordsTags.length; i++) {
-            keyWordsTags[i].style.display = "none";
-            keyWordsIcons[i].style.display = "none";
-        }
-        recipesContainer.innerHTML = "";
-        sections[0].innerHTML = "";
-        sections[1].innerHTML = "";
-        sections[2].innerHTML = "";
-        infoBar.style.top = "16rem";
-    });
-}
-
-//Mettre à jour la liste des ingrédients
- function updateIngredients(ingredient) {
-    const ingredientClick = recipes.filter(item => hasIngredient(ingredient, item) 
-    || item.appliance.toLocaleLowerCase().includes(ingredient.toLocaleLowerCase())
-    || hasUtensil(ingredient, item));
-    //Vider les recettes et les tags précédents
-    recipesContainer.innerHTML = "";
-    sections[0].innerHTML = "";
-    sections[1].innerHTML = "";
-    sections[2].innerHTML = "";
-    //Afficher les nouvelles recettes et les nouveaux tags
-    setCardRecipe(ingredientClick);
-    setIngredientsTag(ingredientClick, 0);
-    setAppliancesTag(ingredientClick, 1);
-    setUtensilsTag(ingredientClick, 2);
-    infoBar.style.top = "20.2rem";
-    recipesContainer.style.marginTop = "8rem";
-    //Masquer tous les tags affichés à chaque nouveau click
-    const keyWordsTags = document.querySelectorAll('.key-word');
-    const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-    if(ingredientsTag.length > 1) {
-        for(let i = 0; i < keyWordsTags.length; i++) {
-            keyWordsTags[i].style.display = "none";
-            keyWordsIcons[i].style.display = "none";
-        }
-    }
-    //Afficher le mot clé dans un tag
-    const container = document.querySelector('.key-words-ingredients-bloc');
-    const keyWordTag = document.createElement('span');
-    const keyWordIcon = document.createElement('i');
-    keyWordTag.className = "key-word key-word-ingredient";
-    keyWordTag.innerHTML = ingredient;
-    keyWordTag.style.display = "block";
-    keyWordIcon.className = "fa-solid fa-circle-xmark";
-    keyWordIcon.style.display = "block";
-    container.append(keyWordTag);
-    container.append(keyWordIcon);
-    ingredientsTag.push(keyWordTag.innerHTML);
-    recipesContainer.style.marginLeft = "-3rem";
-    //Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
-    keyWordIcon.addEventListener('click', function() {
-        //Vider le tableau des ingrédients
-        ingredientsTag = [];
-        const keyWordsTags = document.querySelectorAll('.key-word');
-        const keyWordsIcons = document.querySelectorAll('.fa-circle-xmark');
-        for(let i = 0; i < keyWordsTags.length; i++) {
-            keyWordsTags[i].style.display = "none";
-            keyWordsIcons[i].style.display = "none";
-        }
-        recipesContainer.innerHTML = "";
-        sections[0].innerHTML = "";
-        sections[1].innerHTML = "";
-        sections[2].innerHTML = "";
-        infoBar.style.top = "16rem";
-     });
-    //Filtrer le tableau pour croiser deux ingrédients
-    if(ingredientsTag.length === 2 && ingredientsTag.length < 3) {
-        const result = recipes.filter(item => hasIngredient(ingredientsTag[0],item)
-        && hasIngredient(ingredientsTag[1], item));
-        console.log(result);
-        recipesContainer.style.marginLeft = "-3rem";
-        //Vider le contenu des recettes
-        recipesContainer.innerHTML = "";
-        //Vider le contenu des tags
-        sections[0].innerHTML = "";
-        sections[1].innerHTML = "";
-        sections[2].innerHTML = "";
-        setCardRecipe(result);
-        setIngredientsTag(result, 0);
-        setAppliancesTag(result, 1);
-        setUtensilsTag(result, 2);
-    }
- }
-/*Fonctions qui cherchent des mots dans les titres, les descriptions ou les ingrédients
+/*Fonctions qui cherchent des mots dans les titres, les descriptions et les ingrédients
 d'une recette*/
 function getSearchBar() {
     const searchBarInput = searchBar.value;
     //Filtrer les données du tableau des recettes qui inclus les entrèes de notre input
     //totalLowerCase ne fait pas la différence entre miniscule et majuscule
     //Includes() permet de comparer les données et les entrèes input
-    const suggestionInput = recipes.filter(item => item.name.toLocaleLowerCase()
-    .includes(searchBarInput.toLocaleLowerCase()) || item.description.toLocaleLowerCase()
-    .includes(searchBarInput.toLocaleLowerCase()) || hasIngredient(searchBarInput, item));
-    return suggestionInput;
-}
-
-function getSearchIngredients() {
-    const ingredientsInput = inputsTag[0].value;
-    const inputSuggestion = recipes.filter(item =>  hasIngredient(ingredientsInput, item));
+    const inputSuggestion = recipes.filter((item => item.name.toLocaleLowerCase()
+    .includes(searchBarInput.toLocaleLowerCase())) && (item => item.description.toLocaleLowerCase()
+    .includes(searchBarInput.toLocaleLowerCase())) && (item => hasIngredient(searchBarInput, item)));
+    currentRecipes = inputSuggestion;
     return inputSuggestion;
 }
 
+//Chercher les mots dans les ingédients
+function getSearchIngredients() {
+    const ingredientsInput = inputsTag[0].value;
+    const inputSuggestion = recipes.filter(item => hasIngredient(ingredientsInput, item));
+    return inputSuggestion;
+}
+
+//Chercher les mots dans les appliances
 function getSearchAppliances() {
     const appliancesInput = inputsTag[1].value;
-    const inputSuggestion = recipes.filter(item =>  item.appliance.toLocaleLowerCase()
+    const inputSuggestion = recipes.filter(item => item.appliance.toLocaleLowerCase()
     .includes(appliancesInput.toLocaleLowerCase()));
     return inputSuggestion;
 }
 
+//Chercher les mots dans les ustensiles
 function getSearchUtensils() {
     const utensilsInput = inputsTag[2].value;
-    const inputSuggestion = recipes.filter(item =>  hasUtensil(utensilsInput, item));
+    const inputSuggestion = recipes.filter(item => hasUtensil(utensilsInput, item));
     return inputSuggestion;
 }
 
@@ -724,7 +599,7 @@ function displayRecipes() {
     });
 }
 
-//Afficher la liste des ingrédients par rapport au mot entré dans la barre principale
+//Afficher la liste des ingrédients par rapport au mot entré
 function displayIngredients() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[0].addEventListener('input', getSearchIngredientsResult);
@@ -732,11 +607,23 @@ function displayIngredients() {
     inputsTag[0].addEventListener('keydown', function(event)  {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag ingrédient
+            getSearchResultByIngredient();
+            //Afficher le mot clé dans un tag
+            keyWords[0].style.display = "block";
+            keyWords[1].style.display = "none";
+            keyWords[2].style.display = "none";
+            keyWords[0].innerHTML = inputsTag[0].value;
+            keyWordIcons[0].style.display = "block";
+            keyWordIcons[1].style.display = "none";
+            keyWordIcons[2].style.display = "none";
+            infoBar.style.top = "20.2rem";
+            recipesContainer.style.marginTop = "8rem";
         }
     });
 }
 
-//Afficher la liste des appareils par rapport au mot entré dans la barre principale
+//Afficher la liste des appareils par rapport au mot entré
 function displayAppliances() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[1].addEventListener('input', getSearchAppliancesResult);
@@ -744,11 +631,23 @@ function displayAppliances() {
     inputsTag[1].addEventListener('keydown', function(event) {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag appareils
+            getSearchResultByAppliance();
+           //Afficher le mot clé dans un tag
+           keyWords[1].style.display = "block";
+           keyWords[0].style.display = "none";
+           keyWords[2].style.display = "none";
+           keyWords[1].innerHTML = inputsTag[1].value;
+           keyWordIcons[1].style.display = "block";
+           keyWordIcons[0].style.display = "none";
+           keyWordIcons[2].style.display = "none";
+           infoBar.style.top = "20.2rem";
+           recipesContainer.style.marginTop = "8rem";
         }
     });
 }
 
-//Afficher la liste des ustensils par rapport au mot entré dans la barre principale
+//Afficher la liste des ustensils par rapport au mot entré
 function displayUtensils() {
     //Ecouter l'événement input de chaque entrée de caractère
     inputsTag[2].addEventListener('input', getSearchUtensilsResult);
@@ -756,6 +655,63 @@ function displayUtensils() {
     inputsTag[2].addEventListener('keydown', function(event) {
         if(event.key === "Enter") {
             event.preventDefault();
+            //Afficher les recettes recherché par la tag ustensils
+            getSearchResultByUtensil();
+            //Afficher le mot clé dans un tag
+            keyWords[2].style.display = "block";
+            keyWords[0].style.display = "none";
+            keyWords[1].style.display = "none";
+            keyWords[2].innerHTML = inputsTag[2].value;
+            keyWordIcons[2].style.display = "block";
+            keyWordIcons[0].style.display = "none";
+            keyWordIcons[1].style.display = "none";
+            infoBar.style.top = "20.2rem";
+            recipesContainer.style.marginTop = "8rem";
         }
     });
 }
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[0].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[1].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});
+
+//Fermer le tag du mot clé et effacer toutes les recettes ainsi que les contenus des tags
+keyWordIcons[2].addEventListener('click', function() {
+    keyWords[0].style.display = "none";
+    keyWordIcons[0].style.display = "none";
+    keyWords[1].style.display = "none";
+    keyWordIcons[1].style.display = "none";
+    keyWords[2].style.display = "none";
+    keyWordIcons[2].style.display = "none";
+    recipesContainer.innerHTML = "";
+    sections[0].innerHTML = "";
+    sections[1].innerHTML = "";
+    sections[2].innerHTML = "";
+    infoBar.style.top = "16rem";
+});

@@ -19,6 +19,12 @@ header #logo {
     }
 }
 
+@media(max-width:604px) {
+    #search-bar {
+    width: 92%;
+    }
+}
+
 #search-bar {
     position: relative;
     margin-top: 15px;
@@ -73,6 +79,13 @@ header #logo {
     }
 }
 
+@media(max-width:604px) {
+    .info-bar form {
+        width: 87%;
+    }
+}
+
+
 .info-bar form {
     height: 100%;
     color: white;
@@ -96,10 +109,15 @@ header #logo {
 
 .text {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 1rem;
     margin-bottom: -25px;
     margin-right: -4.5rem;
     margin-left: 10px
+}
+
+.pIngredient, .pAppliance, .pUtensil {
+    font-weight: normal;
 }
 
 .text .col {
@@ -139,29 +157,41 @@ input::placeholder, .info-bar .info-bar-utensils input::placeholder {
     padding-left: 1rem;
 }
 
+.key-words-bloc {
+    display: flex;
+    margin-left: -2rem;
+}
+
 .info-bar-ingredients, .info-bar-ingredients input, .key-word-ingredient {
     background: #3282F7;
 }
 
+.key-words-appliances-bloc {
+    margin-left: 13.4rem;
+}
+
+.key-words-utensils-bloc {
+    margin-left: 12.6rem;
+}
+
+.key-words-ingredients-bloc, .key-words-appliances-bloc, .key-words-utensils-bloc {
+    display: flex;
+    align-items: center;
+    margin-top: 1.8rem;
+}
+
 .key-word {
-    display: none;
-    position: absolute;
-    top: -5rem;
-    left: -18px;
     color: white;
     border-radius: 5px;
     padding: 10px;
     padding-left: 20px;
     padding-right: 60px;
+    margin-left: 2rem;
 }
 
 .fa-circle-xmark {
-    display: none;
     cursor: pointer;
-    position: absolute;
-    z-index: 1;
-    top: -4.4rem;
-    left: 3.3rem;
+    margin-left: -2rem;
     color: white;
     font-weight: normal;
     font-size: larger;
@@ -281,7 +311,7 @@ form .angles {
     }
 }
 
-@media(max-width:533px) {
+@media(max-width:800px) {
     .recipe-card {
         
     }
@@ -366,7 +396,7 @@ form .angles {
 
 @media(max-width:570px) {
     .description {
-        width: 0;
+        /*width: 0;*/
     }
 }
 
